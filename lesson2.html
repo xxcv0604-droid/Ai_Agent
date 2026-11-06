@@ -165,6 +165,8 @@
 
   .linklist{display:flex;flex-wrap:wrap;gap:8px;margin-block:10px;}
   .linklist span{font-size:14px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);padding:6px 12px;border-radius:999px;font-family:"IBM Plex Mono",ui-monospace,monospace;}
+  .linklist a{font-size:14px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);padding:6px 12px;border-radius:999px;font-family:"IBM Plex Mono",ui-monospace,monospace;text-decoration:none;border:1px solid transparent;}
+  .linklist a:hover,.linklist a:focus-visible{border-color:var(--accent);outline:none;}
 
   ul.plain,ol.plain{margin:6px 0;padding-left:20px;}
   ul.plain li,ol.plain li{margin-block:5px;font-size:15.5px;}
@@ -274,7 +276,7 @@
       <div class="lab-head"><span class="lab-no">실습 1</span><h3>그린컵 Project 만들고, 안/밖 비교하기</h3></div>
       <div class="lab-body">
         <div class="linklist">
-          <span>company_overview.docx</span><span>brand_voice.docx</span><span>faq.docx</span><span>shipping_return_policy.docx</span><span>product_catalog.xlsx</span><span>past_good_examples.docx</span>
+          <a href="files/lesson2/company_overview.docx" download>company_overview.docx ⬇</a><a href="files/lesson2/brand_voice.docx" download>brand_voice.docx ⬇</a><a href="files/lesson2/faq.docx" download>faq.docx ⬇</a><a href="files/lesson2/shipping_return_policy.docx" download>shipping_return_policy.docx ⬇</a><a href="files/lesson2/product_catalog.xlsx" download>product_catalog.xlsx ⬇</a><a href="files/lesson2/past_good_examples.docx" download>past_good_examples.docx ⬇</a>
         </div>
         <h4>① Project 밖에서 먼저 물어보기</h4>
         <p>새 대화(Project 아님)에서:</p>
@@ -320,7 +322,7 @@
     <div class="lab" id="lab2">
       <div class="lab-head"><span class="lab-no">실습 2</span><h3>팀장의 한 줄 지시, 쪼개서 맡기기</h3></div>
       <div class="lab-body">
-        <div class="linklist"><span>업무분해_연습.docx</span></div>
+        <div class="linklist"><a href="files/lesson2/업무분해_연습.docx" download>업무분해_연습.docx ⬇</a></div>
         <p>팀장이 메신저로 보낸 지시문 하나를 받습니다. 바로 AI에게 넘기기 전에 먼저 사람이 쪼갭니다.</p>
         <h4>① 먼저 그대로 던져보기 (비교용)</h4>
         <div class="prompt"><div class="pt">쪼개지 않고 그대로<button class="copy" type="button">복사</button></div><pre>다음 주에 체험단 모집 건 준비 좀 해줘.</pre></div>
@@ -343,7 +345,7 @@
     <div class="lab">
       <div class="lab-head"><span class="lab-no">실습 3</span><h3>회의 메모 → 숫자 검증 3단계로 보고서 만들기</h3></div>
       <div class="lab-body">
-        <div class="linklist"><span>meeting_notes_raw.docx</span><span>report_template.docx</span><span>report_worksheet.docx</span><span>last_week_report.docx</span></div>
+        <div class="linklist"><a href="files/lesson2/meeting_notes_raw.docx" download>meeting_notes_raw.docx ⬇</a><a href="files/lesson2/report_template.docx" download>report_template.docx ⬇</a><a href="files/lesson2/report_worksheet.docx" download>report_worksheet.docx ⬇</a><a href="files/lesson2/last_week_report.docx" download>last_week_report.docx ⬇</a></div>
         <p>정신없이 받아 적은 회의 메모를, 지난주 보고서(last_week_report.docx)와 같은 형식(report_template.docx)으로 정리합니다.</p>
         <div class="prompt"><div class="pt">형식 맞춰 정리 요청<button class="copy" type="button">복사</button></div><pre>첨부한 회의 메모를 report_template.docx 형식에 맞춰 주간 보고서로 정리해줘. 메모에만 있고 숫자가 불확실한 건("다시확인" 표시된 것) [확인필요]로 남기고, 아직 확정 안 된 사항(보류·미정 포함)은 결정사항에 넣지 마.</pre></div>
         <ul class="check"><li>매출 증가율처럼 "숫자 다시확인"이라고 메모에 적힌 부분을 그대로 확정된 것처럼 쓰지 않았는지</li></ul>
@@ -366,7 +368,7 @@
     <div class="block">
       <h3>반복 문서, 템플릿으로 뽑아두기</h3>
       <p>매번 비슷하게 쓰는 메일은 패턴이 있습니다. 과거에 쓴 메일 여러 개를 AI에게 보여주고 <b>재사용할 템플릿</b>을 뽑아두면, 다음부터는 데이터만 바꿔 끼우면 됩니다.</p>
-      <div class="linklist"><span>notice_template.docx</span><span>awkward_emails.docx</span><span>email_share_samples.docx</span></div>
+      <div class="linklist"><a href="files/lesson2/notice_template.docx" download>notice_template.docx ⬇</a><a href="files/lesson2/awkward_emails.docx" download>awkward_emails.docx ⬇</a><a href="files/lesson2/email_share_samples.docx" download>email_share_samples.docx ⬇</a></div>
       <div class="callout tip">
         <div class="k">참고</div>
         notice_template.docx는 이미 <code>{{고객명}}</code> 같은 빈칸 형식으로 만들어져 있습니다. awkward_emails.docx·email_share_samples.docx처럼 아직 템플릿화 안 된 메일은, "이 메일들의 공통 패턴을 뽑아서 템플릿으로 만들어줘"라고 시켜볼 수 있습니다.
@@ -376,7 +378,7 @@
     <div class="lab" id="lab4">
       <div class="lab-head"><span class="lab-no">실습 4</span><h3>체험단 당첨 안내 메일 — 작성부터 검수까지</h3></div>
       <div class="lab-body">
-        <div class="linklist"><span>notice_template.docx</span><span>past_good_examples.docx</span><span>체험단_신청자_명단.xlsx</span></div>
+        <div class="linklist"><a href="files/lesson2/notice_template.docx" download>notice_template.docx ⬇</a><a href="files/lesson2/past_good_examples.docx" download>past_good_examples.docx ⬇</a><a href="files/lesson2/체험단_신청자_명단.xlsx" download>체험단_신청자_명단.xlsx ⬇</a></div>
         <p>체험단 신청자 명단을 올리고, 당첨 안내 메일을 사람 수만큼 개인화해서 만듭니다.</p>
         <div class="prompt"><div class="pt">명단 기반 개인화 메일 요청<button class="copy" type="button">복사</button></div><pre>체험단_신청자_명단.xlsx의 신청자 전원에게 보낼 당첨 안내 메일을 notice_template.docx 형식으로 한 명씩 만들어줘. 이름은 데이터의 값만 쓰고, 연락처(전화번호)는 메일 본문에 절대 포함하지 마. 수령 마감일은 아직 정해지지 않았으니 [확인필요]로 남겨줘.</pre></div>
         <ul class="check"><li>명단의 <b>테스트 신청(9번 행)</b>을 실제 발송 대상에서 제외했는지</li><li>전화번호가 메일 어디에도 들어가지 않았는지</li><li>이메일 도메인 오타로 의심되는 항목(5번 행)을 그대로 보내지 않고 짚어줬는지</li></ul>

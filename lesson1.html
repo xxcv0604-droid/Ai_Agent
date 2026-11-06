@@ -156,6 +156,8 @@
 
   .linklist{display:flex;flex-wrap:wrap;gap:8px;margin-block:10px;}
   .linklist span{font-size:14px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);padding:6px 12px;border-radius:999px;font-family:"IBM Plex Mono",ui-monospace,monospace;}
+  .linklist a{font-size:14px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);padding:6px 12px;border-radius:999px;font-family:"IBM Plex Mono",ui-monospace,monospace;text-decoration:none;border:1px solid transparent;}
+  .linklist a:hover,.linklist a:focus-visible{border-color:var(--accent);outline:none;}
 
   ul.plain,ol.plain{margin:6px 0;padding-left:20px;}
   ul.plain li,ol.plain li{margin-block:5px;font-size:15.5px;}
@@ -350,7 +352,7 @@
       <div class="lab-body">
         <p>정신없이 받아 적은 날것의 회의 메모를 Claude에게 주고, 깔끔한 회의록으로 정리시켜 봅니다.</p>
         <div class="linklist">
-          <span>meeting1_marketing.txt</span><span>meeting2_kickoff.txt</span><span>meeting3_weekly.txt</span>
+          <a href="files/lesson1/meeting1_marketing.txt" download>meeting1_marketing.txt ⬇</a><a href="files/lesson1/meeting2_kickoff.txt" download>meeting2_kickoff.txt ⬇</a><a href="files/lesson1/meeting3_weekly.txt" download>meeting3_weekly.txt ⬇</a>
         </div>
         <h4>① 접속하기</h4>
         <p>크롬으로 <b>claude.ai</b> 접속 → 계정 만들기</p>
@@ -491,7 +493,7 @@
     <div class="lab">
       <div class="lab-head"><span class="lab-no">실습 2</span><h3>세 자료 합쳐 공지 한 장 — 취합 + 제약</h3></div>
       <div class="lab-body">
-        <div class="linklist"><span>office_move_draft.docx</span><span>office_move_schedule.xlsx</span><span>box_requests.xlsx</span></div>
+        <div class="linklist"><a href="files/lesson1/office_move_draft.docx" download>office_move_draft.docx ⬇</a><a href="files/lesson1/office_move_schedule.xlsx" download>office_move_schedule.xlsx ⬇</a><a href="files/lesson1/box_requests.xlsx" download>box_requests.xlsx ⬇</a></div>
         <p>세 파일을 <b>한꺼번에</b> 올립니다. 자료끼리 다른 부분이 있는지 직접 찾아보세요.</p>
         <div class="prompt"><div class="pt">① 나쁜 지시 (초안 파일 하나만 올리고)<button class="copy" type="button">복사</button></div><pre>이거 보고 공지 써줘</pre></div>
         <div class="prompt"><div class="pt">② 좋은 지시 (세 파일 모두 올리고)<button class="copy" type="button">복사</button></div><pre>첨부한 세 자료를 종합해 전 직원 사무실 이전 공지를 써줘. 초안 아래 팀장 회신에서 요청한 내용(주차 안내 추가, 미신청 부서 리마인드)도 반영해줘. 자료끼리 다르면 더 구체적인 쪽/더 최근 쪽으로 통일하고, 이사일·짐 포장 마감·새 주소·주차·박스 신청·당일 근무·출입카드·문의처를 항목으로 정리. 정해지지 않은 건 지어내지 말고 [확인필요]. 제목 + 핵심요약 3줄 + 항목 정리 + 마지막 한 줄 안내.</pre></div>
@@ -511,7 +513,7 @@
     <div class="lab">
       <div class="lab-head"><span class="lab-no">실습 3</span><h3>세 자료 합쳐 답장 — 데이터 + 역할·제약</h3></div>
       <div class="lab-body">
-        <div class="linklist"><span>customer_complaint.docx</span><span>order_history.xlsx</span><span>return_policy.docx</span></div>
+        <div class="linklist"><a href="files/lesson1/customer_complaint.docx" download>customer_complaint.docx ⬇</a><a href="files/lesson1/order_history.xlsx" download>order_history.xlsx ⬇</a><a href="files/lesson1/return_policy.docx" download>return_policy.docx ⬇</a></div>
         <p>메일만 주지 말고 <b>주문 이력·정책을 함께</b> 올립니다. 데이터가 있어야 '공감'이 '구체적 행동'으로 바뀝니다.</p>
         <div class="prompt"><div class="pt">① 나쁜 지시 (메일 파일 하나만)<button class="copy" type="button">복사</button></div><pre>답장 써줘</pre></div>
         <div class="prompt"><div class="pt">② 좋은 지시 (세 파일 모두)<button class="copy" type="button">복사</button></div><pre>너는 그린컵의 침착하고 공감 잘하는 CS 담당자야. 첨부한 주문 이력과 정책을 참고해, ①진심 사과 ②해결책 2가지(긴급 재배송/환불) ③재발 방지 ④보상 순서로, 250자 내외 다정한 존댓말. 변명 금지, 정책에 없는 약속 금지, 문서 맨 아래 'CS팀 내부 메모'는 답장에 포함하지 마.</pre></div>
@@ -525,7 +527,7 @@
     <div class="lab">
       <div class="lab-head"><span class="lab-no">실습 4</span><h3>회의 슬라이드를 회의록으로 — 출력형식 강제</h3></div>
       <div class="lab-body">
-        <div class="linklist"><span>marketing_meeting.pptx</span></div>
+        <div class="linklist"><a href="files/lesson1/marketing_meeting.pptx" download>marketing_meeting.pptx ⬇</a></div>
         <div class="prompt"><div class="pt">슬라이드 올리고<button class="copy" type="button">복사</button></div><pre>너는 회의 서기야. 이 슬라이드를 개요 / 결정사항 / 할 일 / 미결사항으로 정리해. 할 일은 |할 일|담당|마감| 표로만. 자료에 없는 건 지어내지 말고 [확인필요]. 확정된 것과 아직 안 정한 것을 섞지 마.</pre></div>
         <ul class="check"><li>슬라이드에서 '아직 안 정해진 것'을 결정사항에 넣지 않고 <b>미결로 분리</b>했는지</li></ul>
         <details class="faq"><summary>정답 확인 — 숨은 함정</summary><div>
@@ -537,7 +539,7 @@
     <div class="lab">
       <div class="lab-head"><span class="lab-no">실습 5</span><h3>같은 자료로 발표 슬라이드 만들기 — PowerPoint</h3></div>
       <div class="lab-body">
-        <div class="linklist"><span>report_data.xlsx</span><span>report_brief.docx</span></div>
+        <div class="linklist"><a href="files/lesson1/report_data.xlsx" download>report_data.xlsx ⬇</a><a href="files/lesson1/report_brief.docx" download>report_brief.docx ⬇</a></div>
         <p>실무에서 자주 시키는 일: <b>흩어진 숫자를 받아 발표자료로.</b> 두 자료를 함께 올립니다.</p>
         <h4>먼저 짚기 — 슬라이드를 만드는 두 가지 방식</h4>
         <div class="table-wrap"><table>
@@ -564,7 +566,7 @@
     <div class="lab">
       <div class="lab-head"><span class="lab-no">실습 6</span><h3>한 데이터, 세 가지 독자 — 역할·형식 조합</h3></div>
       <div class="lab-body">
-        <div class="linklist"><span>survey_results.xlsx</span></div>
+        <div class="linklist"><a href="files/lesson1/survey_results.xlsx" download>survey_results.xlsx ⬇</a></div>
         <p>설문 파일 <b>하나만</b> 올리고, 같은 데이터로 세 번 시킵니다. 데이터는 그대로, <b>역할과 형식만</b> 바뀝니다. 시작 전에 주관식 응답을 눈으로 한 번 훑어보세요.</p>
         <div class="prompt"><div class="pt">① 임원 보고용<button class="copy" type="button">복사</button></div><pre>너는 데이터 분석가야. 이 설문 결과를 경영진 보고용으로 3줄 요약해줘. 숫자 중심, 결론부터, 해석은 '~로 보임'처럼 단정하지 말고.</pre></div>
         <div class="prompt"><div class="pt">② CS팀 공유용<button class="copy" type="button">복사</button></div><pre>같은 데이터를 CS팀 주간 공유용으로. 주관식 응답에서 반복되는 불만 테마를 뽑고, 이번 주 응대 시 참고할 점 위주로.</pre></div>
@@ -578,9 +580,9 @@
 
     <div class="block">
       <h3>보충 드릴 · 참고 자료</h3>
-      <div class="linklist"><span>prompt_drills.docx</span><span>prompt_cheatsheet.docx</span><span>industry_prompt_pack.docx</span></div>
+      <div class="linklist"><a href="files/lesson1/prompt_drills.docx" download>prompt_drills.docx ⬇</a><a href="files/lesson1/prompt_cheatsheet.docx" download>prompt_cheatsheet.docx ⬇</a><a href="files/lesson1/industry_prompt_pack.docx" download>industry_prompt_pack.docx ⬇</a></div>
       <p class="muted">드릴 워크시트로 막연한 지시를 6요소로 고쳐 써보고, 막히면 치트시트 템플릿을 빌려 쓰세요. 업종별 프롬프트 팩에는 병원·음식점·학원·B2B 등 7개 업종의 ❌→✅ 예시가 있어요.</p>
-      <details class="faq"><summary>모범답안</summary><div><span style="font-family:'IBM Plex Mono',monospace;">model_answers.docx</span>를 열어 내 결과와 비교해 보세요. '정답'보다 <b>왜 그게 더 좋은지</b>에 집중하면 됩니다.</div></details>
+      <details class="faq"><summary>모범답안</summary><div><a href="files/lesson1/model_answers.docx" download style="font-family:'IBM Plex Mono',monospace;">model_answers.docx ⬇</a>를 열어 내 결과와 비교해 보세요. '정답'보다 <b>왜 그게 더 좋은지</b>에 집중하면 됩니다.</div></details>
     </div>
 
     <div class="block">
