@@ -42,10 +42,13 @@
   .course-head .range{font-size:14px;color:var(--text-muted);font-weight:600;}
   .course-desc{color:var(--text-muted);font-size:15.5px;margin-bottom:16px;}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;}
-  .lesson{display:block;border-radius:14px;padding:16px 18px;border:1px solid var(--border);background:var(--surface);text-decoration:none;color:var(--text);transition:border-color .15s;}
+  .lesson{position:relative;display:block;border-radius:14px;padding:16px 18px;border:1px solid var(--border);background:var(--surface);text-decoration:none;color:var(--text);transition:border-color .15s;}
   .lesson.ready{border-color:color-mix(in srgb, var(--good) 35%, var(--border));}
   .lesson.ready:hover,.lesson.ready:focus-visible{border-color:var(--good);outline:none;}
   .lesson.soon{opacity:.55;cursor:default;}
+  .lesson .icon{position:absolute;top:12px;right:12px;width:20px;height:20px;}
+  .lesson.ready .icon path{fill:#D97757;}
+  .lesson.soon .icon path{fill:var(--text-muted);}
   .lesson .n{font-size:13px;font-weight:800;letter-spacing:.04em;color:var(--accent-ink);margin-bottom:6px;}
   .lesson.soon .n{color:var(--text-muted);}
   .lesson .t{font-size:16px;font-weight:700;margin-bottom:8px;line-height:1.4;}
@@ -87,14 +90,14 @@
     <div class="course-head"><h2>AI Agent1</h2><span class="range">1~8회차 · 입문</span></div>
     <p class="course-desc">Claude 앱·커넥터로 시작해 Claude Code 캡스톤으로 마무리합니다.</p>
     <div class="grid">
-      <div class="lesson soon"><div class="n">1회차</div><div class="t">AI 에이전트, 처음 만나기</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">2회차</div><div class="t">회사를 아는 AI로 문서 일하기</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">3회차</div><div class="t">데이터 정제·분석</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">4회차</div><div class="t">조사·요약·검토</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">5회차</div><div class="t">HTML 결과물과 블로그 글</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">6회차</div><div class="t">이미지 생성·보정</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">7회차</div><div class="t">Claude Code 입문</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">8회차</div><div class="t">캡스톤: 신제품 랜딩페이지</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">1회차</div><div class="t">AI 에이전트, 처음 만나기</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">2회차</div><div class="t">회사를 아는 AI로 문서 일하기</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">3회차</div><div class="t">데이터 정제·분석</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">4회차</div><div class="t">조사·요약·검토</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">5회차</div><div class="t">HTML 결과물과 블로그 글</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">6회차</div><div class="t">이미지 생성·보정</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">7회차</div><div class="t">Claude Code 입문</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">8회차</div><div class="t">캡스톤: 신제품 랜딩페이지</div><span class="s">준비 중</span></div>
     </div>
   </section>
 
@@ -102,14 +105,14 @@
     <div class="course-head"><h2>AI Agent2</h2><span class="range">9~16회차 · 심화</span></div>
     <p class="course-desc">개인 브랜드 홈페이지(AI SPACE)로 시작해, 회차마다 자동화 도구를 만들어 배포합니다.</p>
     <div class="grid">
-      <div class="lesson soon"><div class="n">9회차</div><div class="t">AI SPACE: 개인 브랜드 홈페이지</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">10회차</div><div class="t">Claude Code 심화·검수 게이트</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">11회차</div><div class="t">근거 기반 기획서 (RAG)</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">12회차</div><div class="t">에이전트 팀</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">13회차</div><div class="t">카카오톡·인스타 자동화</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">14회차</div><div class="t">블로그 운영 자동화</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">15회차</div><div class="t">유튜브 영상 자동화</div><span class="s">준비 중</span></div>
-      <div class="lesson soon"><div class="n">16회차</div><div class="t">AI 도구 둘러보기</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">9회차</div><div class="t">AI SPACE: 개인 브랜드 홈페이지</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">10회차</div><div class="t">Claude Code 심화·검수 게이트</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">11회차</div><div class="t">근거 기반 기획서 (RAG)</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">12회차</div><div class="t">에이전트 팀</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">13회차</div><div class="t">카카오톡·인스타 자동화</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">14회차</div><div class="t">블로그 운영 자동화</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">15회차</div><div class="t">유튜브 영상 자동화</div><span class="s">준비 중</span></div>
+      <div class="lesson soon"><svg class="icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 4 L28 20 L44 24 L28 28 L24 44 L20 28 L4 24 L20 20 Z"/></svg><div class="n">16회차</div><div class="t">AI 도구 둘러보기</div><span class="s">준비 중</span></div>
     </div>
   </section>
 
