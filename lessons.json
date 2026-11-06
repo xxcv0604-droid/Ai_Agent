@@ -1,0 +1,34 @@
+{
+  "courses": [
+    {
+      "name": "AI Agent1",
+      "range": "1~8회차 · 입문",
+      "desc": "Claude 앱·커넥터로 시작해 Claude Code 캡스톤으로 마무리합니다.",
+      "lessons": [
+        { "n": 1, "id": "lesson1", "title": "AI 에이전트, 처음 만나기" },
+        { "n": 2, "id": "lesson2", "title": "회사를 아는 AI로 문서 일하기" },
+        { "n": 3, "id": "lesson3", "title": "데이터 정제·분석" },
+        { "n": 4, "id": "lesson4", "title": "조사·요약·검토" },
+        { "n": 5, "id": "lesson5", "title": "HTML 결과물과 블로그 글" },
+        { "n": 6, "id": "lesson6", "title": "이미지 생성·보정" },
+        { "n": 7, "id": "lesson7", "title": "Claude Code 입문" },
+        { "n": 8, "id": "lesson8", "title": "캡스톤: 신제품 랜딩페이지" }
+      ]
+    },
+    {
+      "name": "AI Agent2",
+      "range": "9~16회차 · 심화",
+      "desc": "개인 브랜드 홈페이지(AI SPACE)로 시작해, 회차마다 자동화 도구를 만들어 배포합니다.",
+      "lessons": [
+        { "n": 9, "id": "lesson9", "title": "AI SPACE: 개인 브랜드 홈페이지" },
+        { "n": 10, "id": "lesson10", "title": "Claude Code 심화·검수 게이트" },
+        { "n": 11, "id": "lesson11", "title": "근거 기반 기획서 (RAG)" },
+        { "n": 12, "id": "lesson12", "title": "에이전트 팀" },
+        { "n": 13, "id": "lesson13", "title": "카카오톡·인스타 자동화" },
+        { "n": 14, "id": "lesson14", "title": "블로그 운영 자동화" },
+        { "n": 15, "id": "lesson15", "title": "유튜브 영상 자동화" },
+        { "n": 16, "id": "lesson16", "title": "AI 도구 둘러보기" }
+      ]
+    }
+  ]
+}
