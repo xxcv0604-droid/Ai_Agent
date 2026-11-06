@@ -1,0 +1,388 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>슬라이드 템플릿 — 사용법 포함</title>
+
+<!--
+========================================================================
+  AI 에이전트 과정 · 수업용 슬라이드 템플릿 (재사용 도구)
+========================================================================
+  사용법
+  1) 이 파일을 복사해서 "화면자료/[과정]/N회차_제목.html" 로 저장한다.
+  2) <title>, .eyebrow, header h1/.sub, nav.jump 링크를 그 회차 내용으로 바꾼다.
+  3) <section class="period" id="pN"> 블록을 교시(1~3교시) 수만큼 복사해서
+     그 안의 .block, .lab 들로 실제 강의 내용을 채운다.
+  4) 쓰지 않는 컴포넌트 블록(아래 "컴포넌트 샘플" 섹션)은 전부 지운다 —
+     이 템플릿 파일 자체는 수업에 쓰지 않는다. 완성된 결과만 수업에 쓴다.
+  5] 모든 CSS는 : root 변수(색) 기반이라, 디자인을 통일하려면 이 <style> 블록을
+     절대 고치지 않는다. 내용만 바꾼다.
+
+  컴포넌트 목록 (아래 순서대로 "컴포넌트 샘플"에 실제 예시가 있다)
+  - .eyebrow            상단 배지 ("AI 에이전트 과정 · AgentN")
+  - nav.jump            섹션 바로가기 네비게이션 (sticky)
+  - section.period      교시 하나 전체를 감싸는 단위
+  - .block               교시 안의 소주제 하나
+  - .vs                 좌우 비교 2열 (예: 챗봇 vs 에이전트)
+  - .flow               단계가 화살표로 이어지는 흐름도
+  - .cards              짧은 카드 여러 개 (grid)
+  - .table-wrap table   표
+  - .callout (tip/warn/action)  강조 박스 3종
+  - .ba (bad/good)      Before/After 2열 비교
+  - .gb (good/warn)     장점/주의점 2열 비교
+  - .prompt + .copy     그대로 복사해서 쓰는 프롬프트 박스 (복사 버튼 포함)
+  - .lab                실습 블록 (제목 + 번호 + 본문)
+  - .check              체크리스트 (✓ 불릿)
+  - .linklist           이번 실습에 쓰는 파일명 뱃지 모음
+  - .faq (details)      "정답 보기" 접고 펼치기
+  - .stack              피라미드형 쌓기 도식
+  - footer              하단 과정·회차 표기
+========================================================================
+-->
+
+<style>
+  :root{
+    --bg:#F6F7FA;
+    --surface:#FFFFFF;
+    --surface-2:#EEF1F7;
+    --text:#1B2130;
+    --text-muted:#5B6475;
+    --border:#E1E5EC;
+    --accent:#3652D6;
+    --accent-ink:#22348F;
+    --accent-soft:#E8ECFC;
+    --warn:#9A5B12;
+    --warn-soft:#FBEFDB;
+    --warn-border:#EFD3A3;
+    --good:#1D7A4C;
+    --good-soft:#E4F5EC;
+    --bad:#C0392B;
+    --bad-soft:#FCEDEB;
+    --code-bg:#F1F3F8;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#12151C;--surface:#1A1E27;--surface-2:#20242F;--text:#E8EAF0;--text-muted:#9BA3B4;
+      --border:#2B303C;--accent:#8DA0FF;--accent-ink:#C4CFFF;--accent-soft:#242C4C;
+      --warn:#E8B369;--warn-soft:#3A2C14;--warn-border:#5B441F;--good:#7BD3A6;--good-soft:#153627;
+      --bad:#F08A7E;--bad-soft:#3A1E1B;--code-bg:#161A22;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12151C;--surface:#1A1E27;--surface-2:#20242F;--text:#E8EAF0;--text-muted:#9BA3B4;
+    --border:#2B303C;--accent:#8DA0FF;--accent-ink:#C4CFFF;--accent-soft:#242C4C;
+    --warn:#E8B369;--warn-soft:#3A2C14;--warn-border:#5B441F;--good:#7BD3A6;--good-soft:#153627;
+    --bad:#F08A7E;--bad-soft:#3A1E1B;--code-bg:#161A22;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font-family:"Noto Sans KR","Pretendard",-apple-system,sans-serif;
+    font-size:17px;line-height:1.65;
+    padding-inline:20px;
+    padding-block:max(24px, env(safe-area-inset-top,0px)) 64px;
+  }
+  h1,h2,h3,h4{font-family:"IBM Plex Sans KR","Noto Sans KR",sans-serif;text-wrap:balance;margin:0;}
+  .wrap{max-width:880px;margin:0 auto;}
+
+  header.top{padding-block:28px 20px;border-bottom:1px solid var(--border);margin-bottom:8px;}
+  .eyebrow{display:inline-block;font-size:14px;font-weight:700;letter-spacing:.06em;color:var(--accent-ink);background:var(--accent-soft);padding:4px 10px;border-radius:999px;margin-bottom:12px;}
+  header.top h1{font-size:clamp(28px,5vw,38px);font-weight:800;}
+  header.top .sub{color:var(--text-muted);font-size:16px;margin-top:8px;}
+
+  nav.jump{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;gap:8px;padding-block:10px;background:var(--bg);overflow-x:auto;margin-bottom:8px;}
+  nav.jump a{flex:0 0 auto;font-size:15px;font-weight:600;color:var(--text-muted);text-decoration:none;padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:var(--surface);white-space:nowrap;}
+  nav.jump a:hover,nav.jump a:focus-visible{color:var(--accent-ink);border-color:var(--accent);outline:none;}
+  nav.jump a.part{background:var(--accent-soft);color:var(--accent-ink);border-color:transparent;}
+
+  .part-banner{margin-top:36px;padding:18px 20px;border-radius:14px;background:var(--accent-soft);color:var(--accent-ink);}
+  .part-banner .t{font-size:14px;font-weight:800;letter-spacing:.06em;}
+  .part-banner h2{font-size:24px;font-weight:800;margin-top:4px;color:var(--text);}
+
+  section.period{padding-block:36px;}
+  section.period + section.period{border-top:1px solid var(--border);}
+  .period-head{margin-bottom:22px;}
+  .period-head h2{font-size:26px;font-weight:800;}
+
+  .block{margin-block:22px;}
+  .block h3{font-size:19px;font-weight:700;margin-bottom:10px;}
+  .block h4{font-size:16.5px;font-weight:700;margin:16px 0 8px;}
+  .block p{margin:0 0 8px;}
+  .muted{color:var(--text-muted);font-size:15.5px;}
+
+  .vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:14px;margin-block:14px;}
+  @media (max-width:560px){.vs{grid-template-columns:1fr;}.vs-arrow{transform:rotate(90deg);}}
+  .vs-col{border-radius:14px;padding:18px;border:1px solid var(--border);background:var(--surface-2);}
+  .vs-col.vs-agent{background:var(--accent-soft);border-color:color-mix(in srgb, var(--accent) 35%, var(--border));}
+  .vs-title{font-weight:800;font-size:18px;margin-bottom:12px;text-align:center;}
+  .vs-agent .vs-title{color:var(--accent-ink);}
+  .vs-list{margin:0;padding-left:20px;font-size:15.5px;}
+  .vs-list li{margin-block:6px;}
+  .vs-arrow{display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--text-muted);}
+  .vs-example{font-size:14px;color:var(--text-muted);text-align:center;padding-top:10px;margin-top:12px;border-top:1px solid var(--border);}
+
+  .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;justify-content:center;margin-block:14px;}
+  .flow-step{flex:1 1 150px;max-width:210px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 12px;text-align:center;}
+  .flow-step.hl{background:var(--accent-soft);border-color:color-mix(in srgb, var(--accent) 35%, var(--border));}
+  .flow-num{font-size:24px;font-weight:800;color:var(--accent-ink);margin-bottom:6px;}
+  .flow-t{font-size:15.5px;font-weight:700;margin-bottom:4px;}
+  .flow-d{font-size:13.5px;color:var(--text-muted);}
+  .flow-arrow{display:flex;align-items:center;font-size:18px;color:var(--text-muted);flex:0 0 auto;}
+  @media (max-width:560px){.flow{flex-direction:column;align-items:center;}.flow-step{max-width:none;width:100%;}.flow-arrow{transform:rotate(90deg);}}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
+  .card .k{font-size:15px;font-weight:700;color:var(--accent-ink);margin-bottom:4px;}
+  .card .v{font-size:15px;color:var(--text-muted);}
+
+  table{width:100%;border-collapse:collapse;font-size:15.5px;}
+  th,td{padding:8px 10px;text-align:left;vertical-align:top;}
+  th{background:var(--surface-2);font-weight:700;white-space:nowrap;}
+  .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border);background:var(--surface);margin-block:10px;}
+  .table-wrap th,.table-wrap td{border-bottom:1px solid var(--border);}
+  .table-wrap tr:last-child td{border-bottom:none;}
+  td.num{font-variant-numeric:tabular-nums;}
+
+  .callout{border-radius:12px;padding:14px 18px;font-size:15.5px;margin-block:14px;border:1px solid var(--border);background:var(--surface);}
+  .callout .k{font-weight:800;font-size:14.5px;margin-bottom:4px;color:var(--accent-ink);}
+  .callout.tip{background:var(--accent-soft);border-color:color-mix(in srgb, var(--accent) 25%, var(--border));}
+  .callout.warn{background:var(--warn-soft);border-color:var(--warn-border);}
+  .callout.warn .k{color:var(--warn);}
+  .callout.action{background:var(--good-soft);border-color:color-mix(in srgb, var(--good) 35%, var(--border));}
+  .callout.action .k{color:var(--good);}
+
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-block:12px;}
+  @media (max-width:560px){.ba{grid-template-columns:1fr;}}
+  .ba .box{border-radius:12px;padding:16px;font-size:15px;border:1px solid var(--border);}
+  .ba .bad{background:var(--bad-soft);border-color:color-mix(in srgb, var(--bad) 30%, var(--border));}
+  .ba .good{background:var(--good-soft);border-color:color-mix(in srgb, var(--good) 30%, var(--border));}
+  .ba .label{font-size:13px;font-weight:800;letter-spacing:.04em;margin-bottom:6px;}
+  .ba .bad .label{color:var(--bad);}
+  .ba .good .label{color:var(--good);}
+  .ba .quote{background:var(--surface);border-radius:8px;padding:10px 12px;margin-block:6px;font-size:14.5px;line-height:1.6;}
+  .ba ul{margin:6px 0 0;padding-left:18px;font-size:14.5px;}
+
+  .gb{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-block:14px;}
+  @media (max-width:560px){.gb{grid-template-columns:1fr;}}
+  .gb .box{border-radius:12px;padding:16px;border:1px solid var(--border);}
+  .gb .box.good{background:var(--good-soft);border-color:color-mix(in srgb, var(--good) 30%, var(--border));}
+  .gb .box.warn{background:var(--warn-soft);border-color:var(--warn-border);}
+  .gb .label{font-weight:800;font-size:15px;margin-bottom:8px;}
+  .gb .box.good .label{color:var(--good);}
+  .gb .box.warn .label{color:var(--warn);}
+  .gb ul{margin:0;padding-left:18px;font-size:15px;}
+  .gb ul li{margin-block:5px;}
+
+  pre.code{margin:10px 0;padding:14px 16px;background:var(--code-bg);border:1px solid var(--border);border-radius:10px;font:14.5px/1.6 "IBM Plex Mono","D2Coding",ui-monospace,monospace;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere;color:var(--text);}
+
+  .prompt{position:relative;margin:10px 0;border:1px solid color-mix(in srgb, var(--accent) 30%, var(--border));border-radius:10px;background:var(--surface);}
+  .prompt .pt{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 8px 6px 14px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:var(--accent-ink);}
+  .prompt pre{margin:0;padding:12px 14px;font:15px/1.65 "Noto Sans KR",sans-serif;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere;}
+  .copy{font:600 13px "Noto Sans KR",sans-serif;color:var(--accent-ink);background:var(--accent-soft);border:1px solid transparent;border-radius:8px;padding:4px 10px;cursor:pointer;}
+  .copy:hover{border-color:var(--accent);}
+  .copy:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  .lab{margin-block:24px;border-radius:16px;border:1px solid color-mix(in srgb, var(--good) 40%, var(--border));background:var(--surface);overflow:hidden;}
+  .lab-head{background:var(--good-soft);padding:12px 18px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .lab-no{font-size:13px;font-weight:800;letter-spacing:.06em;color:var(--good);}
+  .lab-head h3{font-size:19px;font-weight:800;}
+  .lab-body{padding:14px 18px 18px;}
+  .lab-body > p{margin:0 0 8px;}
+  .check{list-style:none;margin:8px 0;padding:0;}
+  .check li{position:relative;padding-left:26px;margin-block:6px;font-size:15.5px;}
+  .check li::before{content:"✓";position:absolute;left:4px;top:0;color:var(--good);font-weight:800;}
+
+  .linklist{display:flex;flex-wrap:wrap;gap:8px;margin-block:10px;}
+  .linklist span{font-size:14px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);padding:6px 12px;border-radius:999px;font-family:"IBM Plex Mono",ui-monospace,monospace;}
+
+  ul.plain,ol.plain{margin:6px 0;padding-left:20px;}
+  ul.plain li,ol.plain li{margin-block:5px;font-size:15.5px;}
+  code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.9em;background:var(--code-bg);padding:1px 5px;border-radius:5px;}
+
+  .stack{display:flex;flex-direction:column;align-items:center;gap:6px;margin-block:14px;}
+  .stack div{border-radius:10px;padding:10px 14px;text-align:center;font-size:15px;background:var(--accent-soft);color:var(--text);}
+  .stack div:nth-child(1){width:100%;font-weight:800;}
+  .stack div:nth-child(2){width:82%;}
+  .stack div:nth-child(3){width:64%;background:var(--surface-2);}
+  .stack div:nth-child(4){width:46%;background:var(--surface-2);color:var(--text-muted);}
+
+  .faq{border:1px solid var(--border);border-radius:12px;background:var(--surface);margin-block:8px;}
+  .faq summary{cursor:pointer;padding:12px 16px;font-weight:700;font-size:15.5px;}
+  .faq summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:12px;}
+  .faq div{padding:0 16px 14px;font-size:15.5px;color:var(--text-muted);}
+
+  .skip{display:inline-block;font-size:12.5px;font-weight:700;color:var(--text-muted);border:1px solid var(--border);border-radius:6px;padding:1px 8px;margin-left:8px;vertical-align:middle;}
+
+  footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color:var(--text-muted);font-size:14.5px;}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;}}
+  html{scroll-behavior:smooth;}
+
+  .howto{border:2px dashed var(--bad);background:var(--bad-soft);border-radius:12px;padding:16px;margin-block:18px;font-size:14.5px;}
+  .howto b{color:var(--bad);}
+</style>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Sans+KR:wght@600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+
+<a href="index.html" style="position:fixed;top:12px;left:12px;z-index:50;font:600 13px 'Noto Sans KR',sans-serif;color:var(--accent-ink);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 14px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,.12);">← 전체 커리큘럼</a>
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">AI 에이전트 과정 · [AgentN]</span>
+    <h1>[N회차] — [회차 제목]</h1>
+    <p class="sub">[이 회차에서 수강생이 손에 쥐게 될 결과 한 줄]</p>
+  </header>
+
+  <nav class="jump" aria-label="섹션 이동">
+    <a href="#p1">[1교시 주제]</a>
+    <a href="#p2">[2교시 주제]</a>
+    <a href="#p3">[3교시 주제]</a>
+  </nav>
+
+  <div class="howto">
+    <b>이 상자는 지우세요.</b> 아래 "컴포넌트 샘플" 섹션은 사용법 예시입니다.
+    실제 회차를 만들 때는 이 섹션을 통째로 지우고, 필요한 컴포넌트만 복사해
+    &lt;section class="period"&gt; 안을 채우세요.
+  </div>
+
+  <!-- ====================== 컴포넌트 샘플 (복사해서 쓰고 이 섹션 통째로 삭제) ====================== -->
+  <section class="period" id="p1">
+    <div class="period-head"><h2>1교시 — [교시 제목]</h2></div>
+
+    <div class="block">
+      <h3>블록 제목 — .block</h3>
+      <p>본문 문단. <b>강조</b>는 bold 태그로.</p>
+      <p class="muted">보조 설명은 .muted 클래스로 흐리게.</p>
+    </div>
+
+    <div class="block">
+      <h3>좌우 비교 — .vs (예: A vs B)</h3>
+      <div class="vs">
+        <div class="vs-col">
+          <div class="vs-title">왼쪽</div>
+          <ul class="vs-list"><li>특징 1</li><li>특징 2</li></ul>
+          <div class="vs-example">예: 짧은 예시</div>
+        </div>
+        <div class="vs-arrow">→</div>
+        <div class="vs-col vs-agent">
+          <div class="vs-title">오른쪽(강조)</div>
+          <ul class="vs-list"><li>특징 1</li><li>특징 2</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>단계 흐름도 — .flow</h3>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-num">①</div><div class="flow-t">단계명</div><div class="flow-d">짧은 설명</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step hl"><div class="flow-num">②</div><div class="flow-t">강조 단계</div><div class="flow-d">짧은 설명</div></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>카드 목록 — .cards</h3>
+      <div class="cards">
+        <div class="card"><div class="k">카드 제목</div><div class="v">카드 설명 한 줄</div></div>
+        <div class="card"><div class="k">카드 제목</div><div class="v">카드 설명 한 줄</div></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>표 — .table-wrap table</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>열1</th><th>열2</th></tr>
+          <tr><td>값</td><td>값</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>강조 박스 3종 — .callout (tip / warn / action)</h3>
+      <div class="callout tip"><div class="k">팁</div>가볍게 참고할 정보.</div>
+      <div class="callout warn"><div class="k">주의</div>사고 가능성이 있는 부분.</div>
+      <div class="callout action"><div class="k">오늘 하는 일</div>지금 바로 실행하는 지시.</div>
+    </div>
+
+    <div class="block">
+      <h3>Before/After 비교 — .ba (bad/good)</h3>
+      <div class="ba">
+        <div class="box bad"><div class="label">❌ 나쁜 예</div><div class="quote">"대충 해줘"</div></div>
+        <div class="box good"><div class="label">✅ 좋은 예</div><div class="quote">"역할·형식·제약을 담아 구체적으로"</div></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>장단점 비교 — .gb (good/warn)</h3>
+      <div class="gb">
+        <div class="box good"><div class="label">✅ 잘하는 일</div><ul><li>항목</li></ul></div>
+        <div class="box warn"><div class="label">⚠️ 약한 일</div><ul><li>항목</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="period" id="p2">
+    <div class="period-head"><h2>2교시 — [실습 중심 교시 예시]</h2></div>
+
+    <div class="lab">
+      <div class="lab-head"><span class="lab-no">실습 N</span><h3>실습 제목</h3></div>
+      <div class="lab-body">
+        <p>실습 상황 설명.</p>
+        <div class="linklist"><span>파일명1.xlsx</span><span>파일명2.docx</span></div>
+
+        <h4>단계 제목</h4>
+        <div class="prompt">
+          <div class="pt">프롬프트 설명<button class="copy" type="button">복사</button></div>
+          <pre>여기에 수강생이 그대로 복사해서 쓸 프롬프트 문장을 적는다.</pre>
+        </div>
+
+        <ul class="check"><li>성공 기준 체크포인트</li></ul>
+
+        <details class="faq">
+          <summary>정답 확인 — 숨은 함정</summary>
+          <div>자료 속에 숨겨둔 함정과, 그걸 어떻게 잡는지 설명.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="period" id="p3">
+    <div class="period-head"><h2>3교시 — [마무리/지형 파악 교시 예시]</h2></div>
+
+    <div class="block">
+      <h3>쌓기 도식 — .stack</h3>
+      <div class="stack">
+        <div>가장 중요한 것</div>
+        <div>그다음</div>
+        <div>그다음</div>
+        <div>참고 사항</div>
+      </div>
+    </div>
+  </section>
+  <!-- ====================== 컴포넌트 샘플 끝 — 여기까지 지우고 실제 내용으로 교체 ====================== -->
+
+  <footer>AI 에이전트 과정 · [AgentN] · [N회차]</footer>
+</div>
+
+<script>
+  document.querySelectorAll('.prompt').forEach(function(box){
+    var btn = box.querySelector('.copy');
+    var pre = box.querySelector('pre');
+    if(!btn || !pre) return;
+    btn.addEventListener('click', function(){
+      var text = pre.innerText;
+      var done = function(){ btn.textContent = '복사됨'; setTimeout(function(){ btn.textContent = '복사'; }, 1500); };
+      var fallback = function(){
+        var r = document.createRange(); r.selectNodeContents(pre);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        btn.textContent = '선택됨 — Ctrl+C';
+        setTimeout(function(){ btn.textContent = '복사'; }, 2500);
+      };
+      try{
+        navigator.clipboard.writeText(text).then(done, fallback);
+      }catch(e){ fallback(); }
+    });
+  });
+</script>
+
+</body></html>

@@ -1,0 +1,436 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>2회차 — 회사를 아는 AI로 문서 일하기</title>
+<style>
+  :root{
+    --bg:#F6F7FA;
+    --surface:#FFFFFF;
+    --surface-2:#EEF1F7;
+    --text:#1B2130;
+    --text-muted:#5B6475;
+    --border:#E1E5EC;
+    --accent:#3652D6;
+    --accent-ink:#22348F;
+    --accent-soft:#E8ECFC;
+    --warn:#9A5B12;
+    --warn-soft:#FBEFDB;
+    --warn-border:#EFD3A3;
+    --good:#1D7A4C;
+    --good-soft:#E4F5EC;
+    --bad:#C0392B;
+    --bad-soft:#FCEDEB;
+    --code-bg:#F1F3F8;
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#12151C;--surface:#1A1E27;--surface-2:#20242F;--text:#E8EAF0;--text-muted:#9BA3B4;
+      --border:#2B303C;--accent:#8DA0FF;--accent-ink:#C4CFFF;--accent-soft:#242C4C;
+      --warn:#E8B369;--warn-soft:#3A2C14;--warn-border:#5B441F;--good:#7BD3A6;--good-soft:#153627;
+      --bad:#F08A7E;--bad-soft:#3A1E1B;--code-bg:#161A22;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12151C;--surface:#1A1E27;--surface-2:#20242F;--text:#E8EAF0;--text-muted:#9BA3B4;
+    --border:#2B303C;--accent:#8DA0FF;--accent-ink:#C4CFFF;--accent-soft:#242C4C;
+    --warn:#E8B369;--warn-soft:#3A2C14;--warn-border:#5B441F;--good:#7BD3A6;--good-soft:#153627;
+    --bad:#F08A7E;--bad-soft:#3A1E1B;--code-bg:#161A22;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--bg);color:var(--text);
+    font-family:"Noto Sans KR","Pretendard",-apple-system,sans-serif;
+    font-size:17px;line-height:1.65;
+    padding-inline:20px;
+    padding-block:max(24px, env(safe-area-inset-top,0px)) 64px;
+  }
+  h1,h2,h3,h4{font-family:"IBM Plex Sans KR","Noto Sans KR",sans-serif;text-wrap:balance;margin:0;}
+  .wrap{max-width:880px;margin:0 auto;}
+
+  header.top{padding-block:28px 20px;border-bottom:1px solid var(--border);margin-bottom:8px;}
+  .eyebrow{display:inline-block;font-size:14px;font-weight:700;letter-spacing:.06em;color:var(--accent-ink);background:var(--accent-soft);padding:4px 10px;border-radius:999px;margin-bottom:12px;}
+  header.top h1{font-size:clamp(28px,5vw,38px);font-weight:800;}
+  header.top .sub{color:var(--text-muted);font-size:16px;margin-top:8px;}
+
+  nav.jump{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;gap:8px;padding-block:10px;background:var(--bg);overflow-x:auto;margin-bottom:8px;}
+  nav.jump a{flex:0 0 auto;font-size:15px;font-weight:600;color:var(--text-muted);text-decoration:none;padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:var(--surface);white-space:nowrap;}
+  nav.jump a:hover,nav.jump a:focus-visible{color:var(--accent-ink);border-color:var(--accent);outline:none;}
+  nav.jump a.part{background:var(--accent-soft);color:var(--accent-ink);border-color:transparent;}
+
+  section.period{padding-block:36px;}
+  section.period + section.period{border-top:1px solid var(--border);}
+  .period-head{margin-bottom:22px;}
+  .period-head h2{font-size:26px;font-weight:800;}
+
+  .block{margin-block:22px;}
+  .block h3{font-size:19px;font-weight:700;margin-bottom:10px;}
+  .block h4{font-size:16.5px;font-weight:700;margin:16px 0 8px;}
+  .block p{margin:0 0 8px;}
+  .muted{color:var(--text-muted);font-size:15.5px;}
+
+  .vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:stretch;gap:14px;margin-block:14px;}
+  @media (max-width:560px){.vs{grid-template-columns:1fr;}.vs-arrow{transform:rotate(90deg);}}
+  .vs-col{border-radius:14px;padding:18px;border:1px solid var(--border);background:var(--surface-2);}
+  .vs-col.vs-agent{background:var(--accent-soft);border-color:color-mix(in srgb, var(--accent) 35%, var(--border));}
+  .vs-title{font-weight:800;font-size:18px;margin-bottom:12px;text-align:center;}
+  .vs-agent .vs-title{color:var(--accent-ink);}
+  .vs-list{margin:0;padding-left:20px;font-size:15.5px;}
+  .vs-list li{margin-block:6px;}
+  .vs-arrow{display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--text-muted);}
+  .vs-example{font-size:14px;color:var(--text-muted);text-align:center;padding-top:10px;margin-top:12px;border-top:1px solid var(--border);}
+
+  .flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;justify-content:center;margin-block:14px;}
+  .flow-step{flex:1 1 150px;max-width:210px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 12px;text-align:center;}
+  .flow-step.hl{background:var(--accent-soft);border-color:color-mix(in srgb, var(--accent) 35%, var(--border));}
+  .flow-num{font-size:24px;font-weight:800;color:var(--accent-ink);margin-bottom:6px;}
+  .flow-t{font-size:15.5px;font-weight:700;margin-bottom:4px;}
+  .flow-d{font-size:13.5px;color:var(--text-muted);}
+  .flow-arrow{display:flex;align-items:center;font-size:18px;color:var(--text-muted);flex:0 0 auto;}
+  @media (max-width:560px){.flow{flex-direction:column;align-items:center;}.flow-step{max-width:none;width:100%;}.flow-arrow{transform:rotate(90deg);}}
+
+  /* Project 구조 도식 */
+  .proj{border:2px solid color-mix(in srgb, var(--accent) 45%, var(--border));border-radius:16px;padding:16px;background:var(--surface);margin-block:14px;}
+  .proj-name{font-weight:800;color:var(--accent-ink);margin-bottom:12px;font-size:16px;}
+  .proj-inner{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media (max-width:560px){.proj-inner{grid-template-columns:1fr;}}
+  .proj-box{background:var(--accent-soft);border-radius:10px;padding:12px 14px;font-size:15px;}
+  .proj-box b{display:block;color:var(--accent-ink);margin-bottom:4px;}
+  .proj-chats{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .proj-chats span{flex:1 1 150px;text-align:center;border:1px dashed var(--border);border-radius:10px;padding:10px;font-size:14.5px;background:var(--surface-2);}
+  .proj-note{font-size:14px;color:var(--text-muted);text-align:center;margin-top:10px;}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
+  .card .k{font-size:15px;font-weight:700;color:var(--accent-ink);margin-bottom:4px;}
+  .card .v{font-size:15px;color:var(--text-muted);}
+
+  table{width:100%;border-collapse:collapse;font-size:15.5px;}
+  th,td{padding:8px 10px;text-align:left;vertical-align:top;}
+  th{background:var(--surface-2);font-weight:700;white-space:nowrap;}
+  .table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border);background:var(--surface);margin-block:10px;}
+  .table-wrap th,.table-wrap td{border-bottom:1px solid var(--border);}
+  .table-wrap tr:last-child td{border-bottom:none;}
+  td.num{font-variant-numeric:tabular-nums;}
+
+  .callout{border-radius:12px;padding:14px 18px;font-size:15.5px;margin-block:14px;border:1px solid var(--border);background:var(--surface);}
+  .callout .k{font-weight:800;font-size:14.5px;margin-bottom:4px;color:var(--accent-ink);}
+  .callout.tip{background:var(--accent-soft);border-color:color-mix(in srgb, var(--accent) 25%, var(--border));}
+  .callout.warn{background:var(--warn-soft);border-color:var(--warn-border);}
+  .callout.warn .k{color:var(--warn);}
+  .callout.action{background:var(--good-soft);border-color:color-mix(in srgb, var(--good) 35%, var(--border));}
+  .callout.action .k{color:var(--good);}
+
+  .ba{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-block:12px;}
+  @media (max-width:560px){.ba{grid-template-columns:1fr;}}
+  .ba .box{border-radius:12px;padding:16px;font-size:15px;border:1px solid var(--border);}
+  .ba .bad{background:var(--bad-soft);border-color:color-mix(in srgb, var(--bad) 30%, var(--border));}
+  .ba .good{background:var(--good-soft);border-color:color-mix(in srgb, var(--good) 30%, var(--border));}
+  .ba .label{font-size:13px;font-weight:800;letter-spacing:.04em;margin-bottom:6px;}
+  .ba .bad .label{color:var(--bad);}
+  .ba .good .label{color:var(--good);}
+  .ba .quote{background:var(--surface);border-radius:8px;padding:10px 12px;margin-block:6px;font-size:14.5px;line-height:1.6;}
+  .ba ul{margin:6px 0 0;padding-left:18px;font-size:14.5px;}
+
+  .gb{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-block:14px;}
+  @media (max-width:560px){.gb{grid-template-columns:1fr;}}
+  .gb .box{border-radius:12px;padding:16px;border:1px solid var(--border);}
+  .gb .box.good{background:var(--good-soft);border-color:color-mix(in srgb, var(--good) 30%, var(--border));}
+  .gb .box.warn{background:var(--warn-soft);border-color:var(--warn-border);}
+  .gb .label{font-weight:800;font-size:15px;margin-bottom:8px;}
+  .gb .box.good .label{color:var(--good);}
+  .gb .box.warn .label{color:var(--warn);}
+  .gb ul{margin:0;padding-left:18px;font-size:15px;}
+  .gb ul li{margin-block:5px;}
+
+  pre.code{margin:10px 0;padding:14px 16px;background:var(--code-bg);border:1px solid var(--border);border-radius:10px;font:14.5px/1.6 "IBM Plex Mono","D2Coding",ui-monospace,monospace;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere;color:var(--text);}
+
+  .prompt{position:relative;margin:10px 0;border:1px solid color-mix(in srgb, var(--accent) 30%, var(--border));border-radius:10px;background:var(--surface);}
+  .prompt .pt{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 8px 6px 14px;border-bottom:1px solid var(--border);font-size:13px;font-weight:700;color:var(--accent-ink);}
+  .prompt pre{margin:0;padding:12px 14px;font:15px/1.65 "Noto Sans KR",sans-serif;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere;}
+  .copy{font:600 13px "Noto Sans KR",sans-serif;color:var(--accent-ink);background:var(--accent-soft);border:1px solid transparent;border-radius:8px;padding:4px 10px;cursor:pointer;}
+  .copy:hover{border-color:var(--accent);}
+  .copy:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  .lab{margin-block:24px;border-radius:16px;border:1px solid color-mix(in srgb, var(--good) 40%, var(--border));background:var(--surface);overflow:hidden;}
+  .lab-head{background:var(--good-soft);padding:12px 18px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+  .lab-no{font-size:13px;font-weight:800;letter-spacing:.06em;color:var(--good);}
+  .lab-head h3{font-size:19px;font-weight:800;}
+  .lab-body{padding:14px 18px 18px;}
+  .lab-body > p{margin:0 0 8px;}
+  .check{list-style:none;margin:8px 0;padding:0;}
+  .check li{position:relative;padding-left:26px;margin-block:6px;font-size:15.5px;}
+  .check li::before{content:"✓";position:absolute;left:4px;top:0;color:var(--good);font-weight:800;}
+
+  .linklist{display:flex;flex-wrap:wrap;gap:8px;margin-block:10px;}
+  .linklist span{font-size:14px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);padding:6px 12px;border-radius:999px;font-family:"IBM Plex Mono",ui-monospace,monospace;}
+
+  ul.plain,ol.plain{margin:6px 0;padding-left:20px;}
+  ul.plain li,ol.plain li{margin-block:5px;font-size:15.5px;}
+  code{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.9em;background:var(--code-bg);padding:1px 5px;border-radius:5px;}
+
+  .stack{display:flex;flex-direction:column;align-items:center;gap:6px;margin-block:14px;}
+  .stack div{border-radius:10px;padding:10px 14px;text-align:center;font-size:15px;background:var(--accent-soft);color:var(--text);}
+  .stack div:nth-child(1){width:100%;font-weight:800;}
+  .stack div:nth-child(2){width:82%;}
+  .stack div:nth-child(3){width:64%;background:var(--surface-2);}
+  .stack div:nth-child(4){width:46%;background:var(--surface-2);color:var(--text-muted);}
+
+  .faq{border:1px solid var(--border);border-radius:12px;background:var(--surface);margin-block:8px;}
+  .faq summary{cursor:pointer;padding:12px 16px;font-weight:700;font-size:15.5px;}
+  .faq summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px;border-radius:12px;}
+  .faq div{padding:0 16px 14px;font-size:15.5px;color:var(--text-muted);}
+
+  .skip{display:inline-block;font-size:12.5px;font-weight:700;color:var(--text-muted);border:1px solid var(--border);border-radius:6px;padding:1px 8px;margin-left:8px;vertical-align:middle;}
+
+  footer{margin-top:40px;padding-top:20px;border-top:1px solid var(--border);color:var(--text-muted);font-size:14.5px;}
+  @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;}}
+  html{scroll-behavior:smooth;}
+</style>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=IBM+Plex+Sans+KR:wght@600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+
+<a href="index.html" style="position:fixed;top:12px;left:12px;z-index:50;font:600 13px 'Noto Sans KR',sans-serif;color:var(--accent-ink);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:6px 14px;text-decoration:none;box-shadow:0 1px 4px rgba(0,0,0,.12);">← 전체 커리큘럼</a>
+<div class="wrap">
+  <header class="top">
+    <span class="eyebrow">AI 에이전트 과정 · Agent1</span>
+    <h1>2회차 — 회사를 아는 AI로 문서 일하기</h1>
+    <p class="sub">Project에 회사 자료를 올려 "우리 회사를 아는 AI"를 만들고, 업무를 쪼개 목적에 맞는 요약과 메일을 만들어 Gmail로 보내기</p>
+  </header>
+
+  <nav class="jump" aria-label="섹션 이동">
+    <a href="#p1">Project 지식베이스</a>
+    <a href="#lab1">실습: Project 만들기</a>
+    <a href="#p2">업무 쪼개기·요약</a>
+    <a href="#lab2">실습: 업무 분해·요약</a>
+    <a href="#p3">안내메일·Gmail 발송</a>
+    <a href="#lab4">실습: 메일 작성·발송</a>
+  </nav>
+
+  <!-- 1교시 -->
+  <section class="period" id="p1">
+    <div class="period-head">
+      <h2>Project로, 회사를 아는 AI 만들기</h2>
+    </div>
+
+    <div class="block">
+      <h3>매번 설명하지 않아도 되는 AI</h3>
+      <p>지난 회차엔 질문마다 맥락(회사 정책, 톤, 제품 정보)을 직접 적어줘야 했습니다. <b>Project</b>는 자료를 한 번 올려두면, 그 안의 모든 대화가 그 자료를 "이미 아는 상태"로 시작합니다.</p>
+      <div class="vs">
+        <div class="vs-col">
+          <div class="vs-title">일반 대화</div>
+          <ul class="vs-list">
+            <li>질문마다 회사 정보를 새로 설명</li>
+            <li>대화마다 톤이 들쭉날쭉</li>
+            <li>정책이 바뀌면 또 알려줘야 함</li>
+          </ul>
+        </div>
+        <div class="vs-arrow">→</div>
+        <div class="vs-col vs-agent">
+          <div class="vs-title">Project</div>
+          <ul class="vs-list">
+            <li>자료를 한 번 올리면 모든 대화가 참고</li>
+            <li>브랜드 톤이 자동으로 유지됨</li>
+            <li>자료만 바꿔 끼우면 전체가 최신화</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Project 구조 — 자료함 + 여러 대화</h3>
+      <div class="proj">
+        <div class="proj-name">그린컵 Project</div>
+        <div class="proj-inner">
+          <div class="proj-box"><b>지식(자료함)</b>회사소개·브랜드보이스·FAQ·정책·카탈로그·좋은예시</div>
+          <div class="proj-box"><b>지시사항</b>"항상 다정한 존댓말, 과장 표현 금지" 같은 고정 규칙</div>
+        </div>
+        <div class="proj-chats">
+          <span>대화 1 — 안내 메일</span>
+          <span>대화 2 — 상담 답변</span>
+          <span>대화 3 — 보고서</span>
+        </div>
+        <p class="proj-note">대화는 여러 개를 만들어도 되고, 전부 같은 지식·규칙을 공유합니다</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>무엇을 올리면 좋은가</h3>
+      <div class="cards">
+        <div class="card"><div class="k">회사소개</div><div class="v">미션·핵심가치·주요 고객</div></div>
+        <div class="card"><div class="k">브랜드 보이스</div><div class="v">톤앤매너, 하는 말/안 하는 말</div></div>
+        <div class="card"><div class="k">FAQ·정책</div><div class="v">자주 묻는 질문, 배송·교환·환불</div></div>
+        <div class="card"><div class="k">제품 카탈로그</div><div class="v">라인업·스펙·가격</div></div>
+        <div class="card"><div class="k">과거 좋은 예시</div><div class="v">톤이 잘 산 결과물 — AI가 따라 할 기준</div></div>
+      </div>
+      <div class="callout warn">
+        <div class="k">주의</div>
+        자료는 <b>최신본인지 확인</b>하고 올리세요. 옛날 정책·가격이 섞여 있으면 Project 전체가 그 틀린 정보를 "이미 아는 사실"로 계속 씁니다.
+      </div>
+    </div>
+
+    <div class="lab" id="lab1">
+      <div class="lab-head"><span class="lab-no">실습 1</span><h3>그린컵 Project 만들고, 안/밖 비교하기</h3></div>
+      <div class="lab-body">
+        <div class="linklist">
+          <span>company_overview.docx</span><span>brand_voice.docx</span><span>faq.docx</span><span>shipping_return_policy.docx</span><span>product_catalog.xlsx</span><span>past_good_examples.docx</span>
+        </div>
+        <h4>① Project 밖에서 먼저 물어보기</h4>
+        <p>새 대화(Project 아님)에서:</p>
+        <div class="prompt"><div class="pt">Project 없이 질문<button class="copy" type="button">복사</button></div><pre>미니 머그(스카이)가 품절인데, 고객에게 안내하는 문구 하나만 써줘.</pre></div>
+        <ul class="check"><li>톤이 일반적인 쇼핑몰 말투로 나오는지, 그린컵다운 표현인지 확인</li></ul>
+
+        <h4>② Project 만들고 자료 올리기</h4>
+        <p>Project 생성 → 이름 "그린컵" → 위 6개 파일을 지식(자료함)에 올리고, 지시사항에 다음을 적습니다:</p>
+        <div class="prompt"><div class="pt">Project 지시사항<button class="copy" type="button">복사</button></div><pre>너는 그린컵의 문서 작성 담당이야. 항상 brand_voice.docx의 톤(다정한 존댓말, 과장 표현 금지)을 따르고, 가격·정책·수치는 올라간 자료에 있는 값만 써. 자료에 없는 내용은 지어내지 말고 [확인필요]로 표시해.</pre></div>
+
+        <h4>③ Project 안에서 같은 질문</h4>
+        <div class="prompt"><div class="pt">Project 안에서 같은 질문<button class="copy" type="button">복사</button></div><pre>미니 머그(스카이)가 품절인데, 고객에게 안내하는 문구 하나만 써줘.</pre></div>
+        <ul class="check"><li>①과 비교 — 그린컵 톤(🌱, "같이 가요" 느낌)이 자동으로 묻어나는지</li><li>past_good_examples.docx의 "품절 상품 안내" 예시와 구조가 비슷한지</li></ul>
+
+        <details class="faq"><summary>정답 확인 — 숨은 함정</summary><div>
+          faq.docx와 shipping_return_policy.docx 양쪽에 교환·환불 관련 내용이 있는데, <b>각인 상품은 교환·환불이 제한된다</b>는 조건이 두 파일 모두에 나옵니다. Project 안에서 "각인 제품 환불 돼요?"라고 물어 두 자료를 종합해서 정확히 답하는지 확인해보세요.
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 2교시 -->
+  <section class="period" id="p2">
+    <div class="period-head">
+      <h2>업무 쪼개기 + 목적 있는 요약</h2>
+    </div>
+
+    <div class="block">
+      <h3>한 줄 지시, 그대로 넘기면 안 되는 이유</h3>
+      <p>실제 업무 지시는 "~좀 해줘" 한 줄로 옵니다. 그 안엔 보통 <b>여러 단계의 작업</b>과 <b>아직 안 정해진 것</b>이 섞여 있습니다. AI에게 바로 던지기 전에, 사람이 먼저 "무엇부터 무엇까지"로 쪼개는 게 안전합니다.</p>
+      <div class="flow">
+        <div class="flow-step"><div class="flow-num">①</div><div class="flow-t">지시 받기</div><div class="flow-d">두루뭉술한 한 줄</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step hl"><div class="flow-num">②</div><div class="flow-t">쪼개기</div><div class="flow-d">확인필요 / 작업 구분</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-num">③</div><div class="flow-t">하나씩 맡기기</div><div class="flow-d">작업 단위로 AI에 지시</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step"><div class="flow-num">④</div><div class="flow-t">검수·보고</div><div class="flow-d">진행상황 정리</div></div>
+      </div>
+    </div>
+
+    <div class="lab" id="lab2">
+      <div class="lab-head"><span class="lab-no">실습 2</span><h3>팀장의 한 줄 지시, 쪼개서 맡기기</h3></div>
+      <div class="lab-body">
+        <div class="linklist"><span>업무분해_연습.docx</span></div>
+        <p>팀장이 메신저로 보낸 지시문 하나를 받습니다. 바로 AI에게 넘기기 전에 먼저 사람이 쪼갭니다.</p>
+        <h4>① 먼저 그대로 던져보기 (비교용)</h4>
+        <div class="prompt"><div class="pt">쪼개지 않고 그대로<button class="copy" type="button">복사</button></div><pre>다음 주에 체험단 모집 건 준비 좀 해줘.</pre></div>
+        <p class="muted">결과가 애매하거나 되묻는지, 엉뚱한 걸 만들어내는지 확인해보세요.</p>
+
+        <h4>② 사람이 먼저 쪼개기</h4>
+        <p>업무분해_연습.docx의 예시 틀을 채워, 확인이 필요한 것과 바로 할 수 있는 작업을 구분합니다.</p>
+
+        <h4>③ 쪼갠 작업 중 하나를 구체적으로 맡기기</h4>
+        <div class="prompt"><div class="pt">쪼갠 작업 하나만 구체적으로<button class="copy" type="button">복사</button></div><pre>체험단 신청자에게 보낼 당첨 안내 메일 초안을 만들어줘. notice_template.docx 형식을 따르고, 신청 경로나 연락처 같은 개인정보는 본문에 넣지 마. 아직 정해지지 않은 수령 마감일은 [확인필요]로 남겨줘.</pre></div>
+        <ul class="check"><li>①과 ③ 결과를 비교 — 구체적으로 쪼갰을 때 훨씬 바로 쓸 수 있는 결과가 나오는지</li></ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>목적 있는 요약 — 같은 자료, 다른 독자</h3>
+      <p>회의 메모 하나도 <b>누구에게 보여줄 요약인지</b>에 따라 담아야 할 내용이 달라집니다. "요약해줘"가 아니라 "누구를 위해, 무엇을 결정하도록" 요약하는지가 핵심입니다.</p>
+    </div>
+
+    <div class="lab">
+      <div class="lab-head"><span class="lab-no">실습 3</span><h3>회의 메모 → 숫자 검증 3단계로 보고서 만들기</h3></div>
+      <div class="lab-body">
+        <div class="linklist"><span>meeting_notes_raw.docx</span><span>report_template.docx</span><span>report_worksheet.docx</span><span>last_week_report.docx</span></div>
+        <p>정신없이 받아 적은 회의 메모를, 지난주 보고서(last_week_report.docx)와 같은 형식(report_template.docx)으로 정리합니다.</p>
+        <div class="prompt"><div class="pt">형식 맞춰 정리 요청<button class="copy" type="button">복사</button></div><pre>첨부한 회의 메모를 report_template.docx 형식에 맞춰 주간 보고서로 정리해줘. 메모에만 있고 숫자가 불확실한 건("다시확인" 표시된 것) [확인필요]로 남기고, 아직 확정 안 된 사항(보류·미정 포함)은 결정사항에 넣지 마.</pre></div>
+        <ul class="check"><li>매출 증가율처럼 "숫자 다시확인"이라고 메모에 적힌 부분을 그대로 확정된 것처럼 쓰지 않았는지</li></ul>
+        <h4>검수 — report_worksheet.docx의 3층 체크리스트로</h4>
+        <p class="muted">① 숫자층(원본과 대조) → ② 논리층(앞뒤가 맞는지) → ③ 톤층 순서로 검수합니다. report_worksheet.docx 체크리스트를 그대로 써보세요.</p>
+        <details class="faq"><summary>정답 확인 — 숨은 함정</summary><div>
+          회의 메모엔 "포장 개선(완충재 변경)은 <b>확정이 아님</b>"이라고 분명히 적혀 있습니다. 이걸 결정사항으로 잘못 올리면 틀린 보고가 나갑니다. 또 "매출 26% 증가"는 메모에 "다시확인"이 붙어 있어 — 확정 수치로 쓰면 안 됩니다.
+        </div></details>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- 3교시 -->
+  <section class="period" id="p3">
+    <div class="period-head">
+      <h2>안내 메일·소개문 만들고 Gmail로 보내기</h2>
+    </div>
+
+    <div class="block">
+      <h3>반복 문서, 템플릿으로 뽑아두기</h3>
+      <p>매번 비슷하게 쓰는 메일은 패턴이 있습니다. 과거에 쓴 메일 여러 개를 AI에게 보여주고 <b>재사용할 템플릿</b>을 뽑아두면, 다음부터는 데이터만 바꿔 끼우면 됩니다.</p>
+      <div class="linklist"><span>notice_template.docx</span><span>awkward_emails.docx</span><span>email_share_samples.docx</span></div>
+      <div class="callout tip">
+        <div class="k">참고</div>
+        notice_template.docx는 이미 <code>{{고객명}}</code> 같은 빈칸 형식으로 만들어져 있습니다. awkward_emails.docx·email_share_samples.docx처럼 아직 템플릿화 안 된 메일은, "이 메일들의 공통 패턴을 뽑아서 템플릿으로 만들어줘"라고 시켜볼 수 있습니다.
+      </div>
+    </div>
+
+    <div class="lab" id="lab4">
+      <div class="lab-head"><span class="lab-no">실습 4</span><h3>체험단 당첨 안내 메일 — 작성부터 검수까지</h3></div>
+      <div class="lab-body">
+        <div class="linklist"><span>notice_template.docx</span><span>past_good_examples.docx</span><span>체험단_신청자_명단.xlsx</span></div>
+        <p>체험단 신청자 명단을 올리고, 당첨 안내 메일을 사람 수만큼 개인화해서 만듭니다.</p>
+        <div class="prompt"><div class="pt">명단 기반 개인화 메일 요청<button class="copy" type="button">복사</button></div><pre>체험단_신청자_명단.xlsx의 신청자 전원에게 보낼 당첨 안내 메일을 notice_template.docx 형식으로 한 명씩 만들어줘. 이름은 데이터의 값만 쓰고, 연락처(전화번호)는 메일 본문에 절대 포함하지 마. 수령 마감일은 아직 정해지지 않았으니 [확인필요]로 남겨줘.</pre></div>
+        <ul class="check"><li>명단의 <b>테스트 신청(9번 행)</b>을 실제 발송 대상에서 제외했는지</li><li>전화번호가 메일 어디에도 들어가지 않았는지</li><li>이메일 도메인 오타로 의심되는 항목(5번 행)을 그대로 보내지 않고 짚어줬는지</li></ul>
+        <details class="faq"><summary>정답 확인 — 명단 속 함정 3가지</summary><div>
+          ① 9번 행(이름 없음, test@test.com)은 운영팀 테스트 신청이라 비고에 적혀 있습니다 — 발송 대상에서 빠져야 합니다.<br>
+          ② 연락처 컬럼은 "본문에 옮기지 말라"는 안내가 시트에 적혀 있습니다.<br>
+          ③ 5번 행 이메일은 <code>exmaple.com</code>으로, 흔한 오타 도메인입니다 — 그대로 발송하면 반송될 수 있어 사람 확인이 필요합니다.
+        </div></details>
+      </div>
+    </div>
+
+    <div class="lab">
+      <div class="lab-head"><span class="lab-no">실습 5</span><h3>Gmail로 실제 발송하기</h3></div>
+      <div class="lab-body">
+        <p>Gmail 계정을 Claude에 연결한 뒤, 검수를 마친 메일을 실제로 보냅니다.</p>
+        <h4>① Gmail 연결</h4>
+        <p>설정에서 Gmail 커넥터를 연결합니다 — 이후 회차에서도 한 번만 연결하면 계속 씁니다.</p>
+        <h4>② 발송 전 마지막 확인</h4>
+        <ul class="check">
+          <li>받는 사람이 실습 4에서 걸러낸 <b>진짜 신청자만</b>인지</li>
+          <li>제목·본문에 다른 회사/다른 사람 정보가 섞이지 않았는지</li>
+          <li>Claude가 먼저 <b>임시저장(초안)</b>으로 보여주면, 사람이 한 번 더 읽고 승인했는지</li>
+        </ul>
+        <div class="prompt"><div class="pt">Gmail 발송 요청<button class="copy" type="button">복사</button></div><pre>방금 만든 당첨 안내 메일을, 테스트 신청을 제외한 신청자들에게 Gmail로 보내줘. 보내기 전에 받는 사람 목록과 메일 내용을 먼저 보여주고, 내가 확인한 다음에 실제로 발송해줘.</pre></div>
+        <div class="callout warn">
+          <div class="k">주의</div>
+          실제 발송은 되돌리기 어렵습니다. Claude가 "먼저 확인시켜달라"는 지시를 따르는지, 확인 없이 바로 보내버리지는 않는지 꼭 체크하세요.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>AI 에이전트 과정 · Agent1 · 2회차</footer>
+</div>
+
+<script>
+  document.querySelectorAll('.prompt').forEach(function(box){
+    var btn = box.querySelector('.copy');
+    var pre = box.querySelector('pre');
+    if(!btn || !pre) return;
+    btn.addEventListener('click', function(){
+      var text = pre.innerText;
+      var done = function(){ btn.textContent = '복사됨'; setTimeout(function(){ btn.textContent = '복사'; }, 1500); };
+      var fallback = function(){
+        var r = document.createRange(); r.selectNodeContents(pre);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        btn.textContent = '선택됨 — Ctrl+C';
+        setTimeout(function(){ btn.textContent = '복사'; }, 2500);
+      };
+      try{
+        navigator.clipboard.writeText(text).then(done, fallback);
+      }catch(e){ fallback(); }
+    });
+  });
+</script>
+
+</body></html>
